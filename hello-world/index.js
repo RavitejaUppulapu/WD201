@@ -1,5 +1,5 @@
 let hello=()=>{
-    console.log('hello github!');
+    console.log('Hello GitHub!');
 };
 
 hello();
