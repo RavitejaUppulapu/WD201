@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Form Validation</title>
+    <style>
+      tbody,
+      td {
+        border: 2px solid rgba(128, 128, 128, 0.29);
+      }
+
+      table {
+        width: 50vw;
+        padding-left: 10;
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+
+      thead {
+        font-size: larger;
+      }
+
+      body {
+        background-color: #1a202c;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="flex justify-center">
+      <div id="res"></div>
+      <form
+        id="user-form"
+        onsubmit="submitListener(event)"
+        class="p-5 rounded-lg bg-gray-800 shadow-2xl mt-20 font-bold text-white border-2 border-white"
+      >
+        <label for="name" class="text-xl mr-20">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your name"
+          class="border border-gray-500 bg-gray-500 bg-opacity-40 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 text-base outline-none rounded-lg py-1 px-3 m-5 shadow-md"
+          required
+        /><br />
+
+        <label for="email" class="text-xl mr-20">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          class="border border-gray-500 bg-gray-500 bg-opacity-40 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 text-base outline-none rounded-lg m-5 py-1 px-3 shadow-md"
+          required
+        /><br />
+
+        <label for="password" class="text-xl mr-12">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          class="border border-gray-500 bg-gray-500 bg-opacity-40 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 text-base outline-none rounded-lg m-5 py-1 px-3 shadow-md"
+          required
+        /><br />
+
+        <label for="dob" class="text-xl mr-4">Date of Birth</label>
+        <input
+          type="date"
+          id="dob"
+          min="1968-02-09"
+          max="2005-02-09"
+          class="border border-gray-500 bg-gray-500 bg-opacity-40 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 text-base outline-none rounded-lg m-5 py-1 px-3 shadow-md"
+          required
+        />
+        <br />
+        <input
+          type="checkbox"
+          id="acceptTerms"
+          name="acceptTerms"
+          class="my-3 mx-3 mb-6 shadow-md"
+          required
+        />
+        <label for="acceptTerms">Accept Terms & Conditions</label><br />
+
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+    <div
+      class="flex flex-col absolute place-items-center border-2 bg-gray-800 text-white rounded-lg border-gray-100 mt-20 shadow-2xl"
+      style="margin-left: 25%"
+    >
+      <div class="">
+        <p class="text-3xl font-bold mt-10 mb-10">Entries</p>
+      </div>
+      <div class="flex flex-col">
+        <table class="table-auto relative text-white">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Dob</th>
+              <th>Accepted terms?</th>
+            </tr>
+          </thead>
+          <tbody id="showData"></tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      // Date picker restriction
+      const dob2 = document.getElementById("dob");
+      const today = new Date().toISOString().slice(4, 10);
+
+      const year = new Date().getFullYear();
+
+      dob2.min = `${year - 55}${today}`;
+      dob2.max = `${year - 18}${today}`;
+
+      let userEntries = [];
+      let flag = true;
+
+      function submitListener(event) {
+        event.preventDefault();
+        document.getElementById("showData").innerHTML = "";
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var dob = document.getElementById("dob").value;
+        var acceptTerms = document.getElementById("acceptTerms").checked;
+
+        var entries = {
+          name,
+          email,
+          password,
+          dob,
+          acceptTerms,
+        };
+        if (flag) {
+          var users = [];
+          users = JSON.parse(localStorage.getItem("user-entries")) || [];
+          for (var i = 0; i < users.length; i++) {
+            userEntries.push(users[i]);
+          }
+          flag = false;
+        }
+        userEntries.push(entries);
+        localStorage.setItem("user-entries", JSON.stringify(userEntries));
+        showData();
+      }
+
+      function showData() {
+        var users = JSON.parse(localStorage.getItem("user-entries")) || [];
+        for (var i = 0; i < users.length; i++) {
+          let res = `<tr>
+        <td class="py-3 px-2">${users[i].name}</td>
+        <td class="py-3 px-2">${users[i].email}</td>
+        <td class="py-3 px-2">${users[i].password}</td>
+        <td class="py-3 px-2">${users[i].dob}</td>
+        <td class="py-3 px-2">${users[i].acceptTerms}</td>
+      </tr>`;
+          document.getElementById("showData").innerHTML += res;
+        }
+      }
+      showData();
+
+      // Rest of the code for the form and table
+      const userForm = document.querySelector("#user-form");
+
+      // Retrieve entries from localStorage or return an empty array
+      const retrieveUserEntries = () => {
+        const storedEntries = localStorage.getItem("user-entries");
+        return storedEntries ? JSON.parse(storedEntries) : [];
+      };
+
+      // Display user entries in the table
+      const displayUserEntries = () => {
+        const entries = retrieveUserEntries();
+        const rows = entries
+          .map((entry) => {
+            const { name, email, password, dob, acceptTerms } = entry;
+            const row = `
+        <tr>
+          <td>${name}</td>
+          <td>${email}</td>
+          <td>${password}</td>
+          <td>${dob}</td>
+          <td>${acceptTerms}</td>
+        </tr>`;
+            return row;
+          })
+          .join("\n");
+
+        const table = `
+    <table class="table-auto relative text-white">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Dob</th>
+          <th>Accepted terms?</th>
+        </tr>
+      </thead>
+      <tbody id="showData">${rows}</tbody>
+    </table>`;
+
+        document.querySelector("#tableDiv").innerHTML = table;
+      };
+
+      // Save user form data to localStorage and display it in the table
+      const saveUserForm = (event) => {
+        event.preventDefault();
+        const name = document.querySelector("#name").value;
+        const email = document.querySelector("#email").value;
+        const password = document.querySelector("#password").value;
+        const dob = document.querySelector("#dob").value;
+        const acceptTerms = document.querySelector("#acceptTerms").checked;
+
+        const userEntry = { name, email, password, dob, acceptTerms };
+        userEntries.push(userEntry);
+        localStorage.setItem("user-entries", JSON.stringify(userEntries));
+        displayUserEntries();
+      };
+
+      // Add form submit event listener
+      userForm.addEventListener("submit", saveUserForm);
+
+      // Display entries on page load
+      displayUserEntries();
+
+      // Validate date of birth to be between 18 and 55 years old
+      const dobInput = document.querySelector("#dob");
+      dobInput.addEventListener("change", () => {
+        const [year, month, date] = dobInput.value.split("-");
+        const dob = new Date(year, month - 1, date);
+        const today = new Date();
+        const age = today.getFullYear() - dob.getFullYear();
+
+        if (today < new Date(dob.setFullYear(dob.getFullYear() + age))) {
+          age--;
+        }
+
+        if (age < 18 || age > 55) {
+          dobInput.setCustomValidity("Your age must be between 18 and 55");
+          dobInput.style.border = "2px solid red";
+        } else {
+          dobInput.setCustomValidity("");
+          dobInput.style.border = "2px solid rgba(0, 0, 0, 0.4)";
+        }
+      });
+
+      // Validate email format
+      const emailInput = document.querySelector("#email");
+      emailInput.addEventListener("input", () => {
+        if (emailInput.validity.typeMismatch) {
+          emailInput.setCustomValidity(
+            "The Email is not in the right format!!!"
+          );
+          emailInput.reportValidity();
+        } else {
+          emailInput.setCustomValidity("");
+        }
+      });
+    </script>
+  </body>
+</html>
