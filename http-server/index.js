@@ -1,7 +1,6 @@
 const http = require("http");
 const fs = require("fs").promises;
-
-const PORT = 5000;
+const args = require("minimist")(process.argv.slice(2));
 
 let registrationContent, homeContent, projectContent;
 
@@ -16,9 +15,9 @@ async function readFiles() {
   }
 }
 
-// Start reading files
-readFiles().then(() => {
-  // Start the server after all files are read
+async function startServer() {
+  await readFiles();
+
   const server = http.createServer((req, res) => {
     let url = req.url;
     res.writeHead(200, { "Content-Type": "text/html" });
@@ -32,7 +31,12 @@ readFiles().then(() => {
     }
   });
 
+  // Use the correct port from command line arguments or default to 3000
+  const PORT = args["port"] || 5000;
+
   server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
   });
-});
+}
+
+startServer();
