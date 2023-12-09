@@ -1,55 +1,96 @@
-const compareDates = (date1, date2) => {
-  const [y1, m1, d1] = date1.split("-");
-  const [y2, m2, d2] = date2.split("-");
-  if (y1 < y2) return -1;
-  if (y1 > y2) return 1;
-  if (m1 < m2) return -1;
-  if (m1 > m2) return 1;
-  if (d1 < d2) return -1;
-  if (d1 > d2) return 1;
-  return 0;
-};
-
-// A helper function to format a date as YYYY-MM-DD
+let all = [];
 const formattedDate = (d) => {
   return d.toISOString().split("T")[0];
 };
-
 const todoList = () => {
-  let all = [];
-  let today = formattedDate(new Date());
-
+  all = [];
+  let today = new Date();
+  today = formattedDate(today).split("-");
+  let tyear = today[0];
+  let tmonth = today[1];
+  let tday = today[2];
   const add = (todoItem) => {
     all.push(todoItem);
   };
-
   const markAsComplete = (index) => {
     all[index].completed = true;
   };
-
-  // Use the compareDates function to filter the tasks by due date
   const overdue = () => {
-    return all.filter((data) => compareDates(data.dueDate, today) < 0);
+    const overdueresult = all.filter((data) => {
+      let date = data.dueDate.split("-");
+      let y = date[0];
+      let m = date[1];
+      let d = date[2];
+
+      if (tyear > y) {
+        return data;
+      } else if (tyear == y) {
+        if (tmonth > m) {
+          return data;
+        } else if (tmonth == m) {
+          if (tday > d) {
+            return data;
+          }
+        }
+      }
+    });
+    return overdueresult;
   };
 
   const dueToday = () => {
-    return all.filter((data) => compareDates(data.dueDate, today) === 0);
+    const duetodayresult = all.filter((data) => {
+      let date = data.dueDate.split("-");
+      let y = date[0];
+      let m = date[1];
+      let d = date[2];
+
+      if (tyear == y && tmonth == m && tday == d) return data;
+    });
+    return duetodayresult;
   };
 
   const dueLater = () => {
-    return all.filter((data) => compareDates(data.dueDate, today) > 0);
+    const laterdueresult = all.filter((data) => {
+      let date = data.dueDate.split("-");
+      let y = date[0];
+      let m = date[1];
+      let d = date[2];
+
+      if (tyear < y) {
+        return data;
+      } else if (tyear == y) {
+        if (tmonth < m) {
+          return data;
+        } else if (tmonth == m) {
+          if (tday < d) {
+            return data;
+          }
+        }
+      }
+    });
+    return laterdueresult;
   };
 
-  // Use a ternary operator to simplify the logic of displaying the tasks
   const toDisplayableList = (list) => {
-    return list
-      .map((item) => {
-        const check = item.completed ? "[X]" : "[ ]";
-        const date =
-          compareDates(item.dueDate, today) === 0 ? "" : item.dueDate;
-        return `${check} ${item.title} ${date}`.trim();
-      })
-      .join("\n");
+    let data = list.map((item) => {
+      let itemdate = item.dueDate.split("-");
+
+      if (itemdate[0] == tyear && itemdate[1] == tmonth && itemdate[2] == tday) {
+        if (item.completed) {
+          return "[x]" + " " + item.title;
+        } else {
+          return "[ ]" + " " + item.title;
+        }
+      } else {
+        if (item.completed) {
+          return "[X]" + " " + item.title + " " + item.dueDate;
+        } else {
+          return "[ ]" + " " + item.title + " " + item.dueDate;
+        }
+      }
+    });
+
+    return data.join("\n");
   };
 
   return {
