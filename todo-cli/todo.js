@@ -75,7 +75,11 @@ const todoList = () => {
     let data = list.map((item) => {
       let itemdate = item.dueDate.split("-");
 
-      if (itemdate[0] == tyear && itemdate[1] == tmonth && itemdate[2] == tday) {
+      if (
+        itemdate[0] == tyear &&
+        itemdate[1] == tmonth &&
+        itemdate[2] == tday
+      ) {
         if (item.completed) {
           return "[x]" + " " + item.title;
         } else {
@@ -104,45 +108,47 @@ const todoList = () => {
   };
 };
 
+module.exports = todoList;
+
 // ####################################### #
 // DO NOT CHANGE ANYTHING BELOW THIS LINE. #
 // ####################################### #
 
-const todos = todoList();
+// const todos = todoList();
 
-var dateToday = new Date();
-const today = formattedDate(dateToday);
-const yesterday = formattedDate(
-  new Date(new Date().setDate(dateToday.getDate() - 1))
-);
-const tomorrow = formattedDate(
-  new Date(new Date().setDate(dateToday.getDate() + 1))
-);
+// var dateToday = new Date();
+// const today = formattedDate(dateToday);
+// const yesterday = formattedDate(
+//   new Date(new Date().setDate(dateToday.getDate() - 1))
+// );
+// const tomorrow = formattedDate(
+//   new Date(new Date().setDate(dateToday.getDate() + 1))
+// );
 
-todos.add({ title: "Submit assignment", dueDate: yesterday, completed: false });
-todos.add({ title: "Pay rent", dueDate: today, completed: true });
-todos.add({ title: "Service Vehicle", dueDate: today, completed: false });
-todos.add({ title: "File taxes", dueDate: tomorrow, completed: false });
-todos.add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
+// todos.add({ title: "Submit assignment", dueDate: yesterday, completed: false });
+// todos.add({ title: "Pay rent", dueDate: today, completed: true });
+// todos.add({ title: "Service Vehicle", dueDate: today, completed: false });
+// todos.add({ title: "File taxes", dueDate: tomorrow, completed: false });
+// todos.add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
 
-console.log("My Todo-list\n");
+// console.log("My Todo-list\n");
 
-console.log("Overdue");
-var overdues = todos.overdue();
-var formattedOverdues = todos.toDisplayableList(overdues);
-console.log(formattedOverdues);
-console.log("\n");
+// console.log("Overdue");
+// var overdues = todos.overdue();
+// var formattedOverdues = todos.toDisplayableList(overdues);
+// console.log(formattedOverdues);
+// console.log("\n");
 
-console.log("Due Today");
-let itemsDueToday = todos.dueToday();
-let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday);
-console.log(formattedItemsDueToday);
-console.log("\n");
+// console.log("Due Today");
+// let itemsDueToday = todos.dueToday();
+// let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday);
+// console.log(formattedItemsDueToday);
+// console.log("\n");
 
-console.log("Due Later");
-let itemsDueLater = todos.dueLater();
-let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater);
-console.log(formattedItemsDueLater);
-console.log("\n\n");
+// console.log("Due Later");
+// let itemsDueLater = todos.dueLater();
+// let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater);
+// console.log(formattedItemsDueLater);
+// console.log("\n\n");
 
-module.exports = todoList;
+// module.exports = todoList;
