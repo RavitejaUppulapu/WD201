@@ -1,14 +1,17 @@
-const { Sequelize, DataTypes, Model } = require("sequelize");
-const { sequelize, connect } = require("./connectDB.js");
+const { DataTypes, Model } = require("sequelize");
+const { sequelize } = require("./connectDB.js");
 
 class Todo extends Model {
-    static async addTask(params){
-        return await Todo.create(params);
-    };
-    desplayableString(){
-        return `${this.completed ? '[x]':'[]'}  ${this.id}.${this.title}-${this.dueDate}`
-    }
-};
+  static async addTask(params) {
+    return Todo.create(params);
+  }
+
+  displayableString() {
+    return `${this.completed ? "[x]" : "[ ]"}  ${this.id}.${this.title}-${
+      this.dueDate
+    }`;
+  }
+}
 
 Todo.init(
   {
@@ -25,8 +28,9 @@ Todo.init(
   },
   {
     sequelize,
-  }
+  },
 );
 
-module.exports = Todo;
 Todo.sync();
+
+module.exports = Todo;
