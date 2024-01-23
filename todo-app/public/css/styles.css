@@ -1,4 +1,4 @@
-/* Reset some default browser styles */
+/* Reset some default browser styles
 body,
 h1,
 h2,
@@ -54,7 +54,7 @@ footer {
 }
 
 /* Responsive styles */
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   table {
     font-size: 14px;
   }
@@ -63,4 +63,22 @@ footer {
 .Todo-Item:hover .trash-icon{
   display: block;
 
+}  */
+
+body {
+  background-color: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+.Todo-Item:hover .trash-icon {
+  display: block;
+}
+
