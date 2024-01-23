@@ -11,7 +11,7 @@
     "prepare": "cd .. && husky install todo-app/.husky"
   },
   "keywords": [],
-  "author": "Dharvik <dharvik.yerramshetty@gmail.com>",
+  "author": "RavitejaUppulapu <ravitejauppulapu@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
