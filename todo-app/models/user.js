@@ -9,18 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Todo, {
-        foreignKey: "userId",
-      });
-    }
-
-    static async createUser(params, hashedPwd) {
-      return this.create({
-        firstName: params.firstName,
-        lastName: params.lastName,
-        email: params.email,
-        password: hashedPwd,
-      });
     }
   }
   User.init(
