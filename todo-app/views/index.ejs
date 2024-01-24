@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name = "csrf-token" content = "<%= csrfToken %>">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./css/styles.css">
-    
-    <title>Document</title>
-    
 </head>
 <body>
-    <div class = "grid grid-cols-6">
-        <div class = "col-start-3 col-span-2">
+    <div class="grid-cols-6 grid">
+        <div class="col-start-2 col-span-3">
             <%- include('header.ejs') %>
-            <p class="py-2">Welcome to Todo Manager</p>
-            <p class="py-2">New Here? <a href="/signup" class="text-green-600">Sign-Up Now!</a>
-            <p class="py-2">Already a User? <a href="/login" class="text-green-600">Sign-in</a>
+            <p class="py-2">Welcome to the To-Do Manager</p>
+            <p class="py-2">New Here? <a href="/signup" class="text-green-600">Sign up now</a></p>
+            <p class="py-2">Already have an account? <a href="/login" class="text-green-600">Sign in</a></p>
+
+
         </div>
     </div>
+    <!-- <br>
+    -->
+    
 </body>
 </html>
