@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div class="grid grid-cols-6">
-        <div class="col-start-3 col-span-2">
-            <%- include('header.ejs') %>
-            <h6 class="py-4">Login to your account</h6>
-            <form action="/session"  method="post">
-                <div class="py-3">
-                <label for="firstName">Email:</label>
-                <input type="email" name="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
-                </div>
-                <div class="py-3">
-                <label for="firstName">Password:</label>
-                <input type="password" name="password" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
-                </div>
-                <div class="py-3">
-                <button type="submit"  class="bg-green-600 text-white font-medium rounded p-2">Sign In</button>
-                </div>
-                <%- include('notifications.ejs') %>
-
-            </form>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name = "csrf-token" content = "<%= csrfToken %>">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="./css/styles.css">
+        
+        <title>Document</title>
+    </head>
+    <body>
+        <div class = "grid grid-cols-6">
+            <div class = "col-start-3 col-span-2">
+                <%- include('header.ejs') %>
+                <h6 class = "py-4 text-center text-2xl">Login to your Account</h6>
+                <form action = "/session" method = "POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class = "py-2">
+                        <label for = "email">Email</label>
+                        <input type = "email" name = "email" id = "email" class = "w-full px-2 py-1 border border-gray-400 rounded" required>
+                    </div>
+                    <div class = "py-2">
+                        <label for = "password">Password</label>
+                        <input type = "password" name = "password" id = "password" class = "w-full px-2 py-1 border border-gray-400 rounded" required>
+                    </div>
+                    <div class = "py-2">
+                        <button type = "submit" class = "w-full px-2 py-1 bg-blue-500 rounded text-white hover:bg-blue-800">LogIn</button>
+                    </div>
+                </form>
+                <% if(messages && messages.error && messages.error.length > 0)  { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                            <li> <%= messages.error[i] %></li>
+                    <% } %>
+                  <% } %>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

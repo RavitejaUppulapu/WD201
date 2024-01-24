@@ -13,34 +13,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
       });
     }
+
+    static async createUser(params, hashedPwd) {
+      return this.create({
+        firstName: params.firstName,
+        lastName: params.lastName,
+        email: params.email,
+        password: hashedPwd,
+      });
+    }
   }
   User.init(
     {
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: true,
-          len: 1,
-        },
-      },
+      firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: true,
-          len: 1,
-        },
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: true,
-          len: 5,
-        },
-      },
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
     },
     {
       sequelize,
