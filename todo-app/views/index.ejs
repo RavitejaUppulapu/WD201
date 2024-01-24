@@ -8,53 +8,15 @@
     <link rel="stylesheet" href="./css/styles.css">
     
     <title>Document</title>
-    <script>
-        var token = document.querySelector('meta[name = "csrf-token"]').getAttribute('content');
-        async function updateTodo(id,status){
-            fetch(`/todos/${id}`,{
-                method : 'PUT',
-                headers : {'Content-Type' : 'application/json'},
-                body : JSON.stringify({
-                    completed: status,
-                    _csrf : token,
-                }
-                )
-            })
-            .then((res) => {
-                if(res.ok){
-                    window.location.reload()
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-
-        async function deleteTodo(id){
-            fetch(`/todos/${id}`,{
-                method : 'delete',
-                headers : {'Content-Type' : 'application/json'},
-                body : JSON.stringify({
-                    _csrf : token
-                })
-            })
-            .then((res) => {
-                if(res.ok){
-                    window.location.reload()
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-    </script>
+    
 </head>
 <body>
     <div class = "grid grid-cols-6">
         <div class = "col-start-3 col-span-2">
             <%- include('header.ejs') %>
-            <%- include('todos.ejs', {overdues, duesToday, duesLater, completedTodos, csrfToken}) %>
-            <%- include('footer.ejs') %>
+            <p class="py-2">Welcome to Todo Manager</p>
+            <p class="py-2">New Here? <a href="/signup" class="text-green-600">Sign-Up Now!</a>
+            <p class="py-2">Already a User? <a href="/login" class="text-green-600">Sign-in</a>
         </div>
     </div>
 </body>
